@@ -2,10 +2,12 @@ from constants import PieceType, Side
 
 
 class Piece:
-	def __init__(self, piece_type=None, side=None) -> None:
+	def __init__(self, piece_type: PieceType=None, side: Side=None) -> None:
 			self.type = piece_type
 			self.side = side
 
+DEBUG_PIECE = Piece(PieceType.DEBUG, Side.DEBUG)
+EMPTY = Piece()
 
 class Board:
 	"""
@@ -13,6 +15,9 @@ class Board:
 	"""
 
 	def __init__(self) -> None:
+		'''
+		The board is arranged in the format where black pieces are on the thop and white pieces are on the bottom. In terms of index, first two rows of the board are black pieces and last two rows are white.
+		'''
 		self.board = [
 			[
 				Piece(PieceType.ROOK, Side.BLACK),
@@ -34,10 +39,10 @@ class Board:
 				Piece(PieceType.PAWN, Side.BLACK),
 				Piece(PieceType.PAWN, Side.BLACK),
 			],
-			[Piece(), Piece(), Piece(), Piece(), Piece(), Piece(), Piece(), Piece()],
-			[Piece(), Piece(), Piece(), Piece(), Piece(), Piece(), Piece(), Piece()],
-			[Piece(), Piece(), Piece(), Piece(), Piece(), Piece(), Piece(), Piece()],
-			[Piece(), Piece(), Piece(), Piece(), Piece(), Piece(), Piece(), Piece()],
+			[EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+			[EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+			[EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+			[EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
 						[
 				Piece(PieceType.PAWN, Side.WHITE),
 				Piece(PieceType.PAWN, Side.WHITE),
@@ -70,15 +75,31 @@ class Board:
 					print('.', end=' ')
 			print()
 	
-	def posiition_to_index(self, pos: str) -> tuple[int, int]:
+	def position_to_index(self, pos: str) -> tuple[int, int]:
 		'''
 		Given a chess-notation position, returns the index on the board.
 		'''
-		pass
+		col = int(ord(pos[0]) - ord('a'))
+		row = 8 - int(pos[1])
+		return (row, col)
 	
 	def index_to_position(self, pos: tuple[int, int]) -> str:
 		'''
 		Given the index on the board, returns the chess-notation position.
 		'''
-		pass
+		rank = chr(ord('a') + pos[1])
+		file = str(8 - pos[0])
+		return rank + file
+	
+	def move_piece(self, start: str, end: str) -> bool:
+		start_row, start_col = self.position_to_index(start)
+		end_row, end_col = self.position_to_index(end)
+		piece = self.board[start_row][start_col]
+		if piece == EMPTY:
+			print('Invalid move:', start, 'to', end)
+			return False
+		
+		self.board[end_row][end_col] = piece
+		self.board[start_row][start_col] = EMPTY
+		return True
 

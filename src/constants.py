@@ -8,11 +8,13 @@ class PieceType(Enum):
   ROOK = "R"
   QUEEN = "Q"
   KING = "K"
+  DEBUG = '?'
 
 
 class Side(Enum):
   WHITE = 1
   BLACK = 2
+  DEBUG = 3
 
 
 POINTS = {
