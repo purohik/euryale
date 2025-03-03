@@ -10,6 +10,10 @@ headers = {
   "Content-Type": "application/json",
 }
 
+'''
+Documentation related to lichess bot APIs 
+https://lichess.org/api#tag/Bot
+'''
 def get_account_info():
   url = BASE_URL + "api/account"
   return requests.get(url, headers=headers)
