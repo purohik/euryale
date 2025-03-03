@@ -1,4 +1,4 @@
-from representation import Board
+from game.representation import Board
 
 
 def main() -> None:
